@@ -11,6 +11,7 @@ import Project from '../components/project/project'
 
 
 Vue.use(VueRouter)
+// 15-18 解决 在路由跳转的时候同一个路由多次添加是不被允许的情况
 const VueRouterPush = VueRouter.prototype.push 
 VueRouter.prototype.push = function push (to) {
     return VueRouterPush.call(this, to).catch(err => err)
@@ -44,4 +45,13 @@ const router = new VueRouter({
   routes
 })
 
+
+// 挂载路由导航守卫
+router.beforeEach((to,from,next) => {
+  console.log(to.path)
+  if(to.path === '/') return next()
+  const tokenStr = sessionStorage.getItem('TOKEN')
+  if(!tokenStr) return next('/')
+  next()
+})
 export default router
