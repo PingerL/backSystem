@@ -30,4 +30,48 @@ router.beforeEach((to,from,next) => {
 })
 ```
 - 总结：一般vue-router报错说明是路由配置出问题了，或者跳转调用路由的时候出现死循环，RangeError: Maximum call stack size exceeded是死循环出现的语句
+3. 代码重构
+重构前
+```
+fetch('./username.json').then(res=>res.json()).then(res=>{
+  let name =[],
+      password = [],
+      token=[]
+  let data = res.data
+  data.forEach((item) => {
+    name.push(item.username)
+    password.push(item.password)
+    token.push(item.token)
+  })
+  let index = name.findIndex(name => {
+    return name === this.info.username
+  }) 
+  if(index === -1) return this.$message('用户名输入错误')
+  if (this.info.password !== password[index]) return this.$message('密码输入错误')
+  sessionStorage.setItem('TOKEN',token[index])
+  this.$router.push('/user')
+    this.$message({
+    message: '登陆成功',
+    type: 'success'
+  });
+})
+}
+```
+重构后
+```
+fetch('./username.json').then(res=>res.json()).then(res=>{
+  let data = res.data 
+  let index = data.findIndex((item)=>{
+    return item.name === this.info.name
+  })
+  if(index === -1) return this.$message('用户名输入错误')
+  if (this.info.password !== data[index].password) return this.$message('密码输入错误')
+  sessionStorage.setItem('TOKEN',data[index].token)
+  this.$router.push('/user')
+    this.$message({
+    message: '登陆成功',
+    type: 'success'
+  })
+})
+```
 

@@ -50,26 +50,18 @@ export default {
         return
       }
       fetch('./username.json').then(res=>res.json()).then(res=>{
-        let name =[],
-            password = [],
-            token=[]
-        let data = res.data
-        data.forEach((item) => {
-          name.push(item.username)
-          password.push(item.password)
-          token.push(item.token)
+        let data = res.data 
+        let index = data.findIndex((item)=>{
+          return item.name === this.info.name
         })
-        let index = name.findIndex(name => {
-          return name === this.info.username
-        }) 
         if(index === -1) return this.$message('用户名输入错误')
-        if (this.info.password !== password[index]) return this.$message('密码输入错误')
-        sessionStorage.setItem('TOKEN',token[index])
+        if (this.info.password !== data[index].password) return this.$message('密码输入错误')
+        sessionStorage.setItem('TOKEN',data[index].token)
         this.$router.push('/user')
          this.$message({
           message: '登陆成功',
           type: 'success'
-        });
+        })
       })
     }
   }
