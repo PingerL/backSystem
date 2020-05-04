@@ -1,25 +1,8 @@
-# record2
+#### 使用技术
+- elment-ui, vueRouter, fetch
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# backSystem
+#### 第一天提交
+- 完成基本布局
+- 实现登陆页面，登陆跳转
+#### 接下来
+- 使用 token 来控制路由跳转

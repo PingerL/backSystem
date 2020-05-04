@@ -34,7 +34,7 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -50,15 +50,26 @@ export default {
         return
       }
       fetch('./username.json').then(res=>res.json()).then(res=>{
-        let name = [],
-            psw = []
-        res.data.forEach(item => {
+        let name =[],
+            password = [],
+            token=[]
+        let data = res.data
+        data.forEach((item) => {
           name.push(item.username)
-          psw.push(item.password)
+          password.push(item.password)
+          token.push(item.token)
         })
-        if(!name.includes(this.info.username) || !psw.includes(this.info.password)) return this.$message('用户名或者密码错误')
+        let index = name.findIndex(name => {
+          return name === this.info.username
+        }) 
+        if(index === -1) return this.$message('用户名输入错误')
+        if (this.info.password !== password[index]) return this.$message('密码输入错误')
+        sessionStorage.setItem('TOKEN',token[index])
         this.$router.push('/user')
-        console.log(this.$route.path)
+         this.$message({
+          message: '登陆成功',
+          type: 'success'
+        });
       })
     }
   }
