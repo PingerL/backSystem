@@ -74,4 +74,16 @@ fetch('./username.json').then(res=>res.json()).then(res=>{
   })
 })
 ```
+4. 左侧页面二级菜单下拉后有 1px 的多出
+- 原因：element-ui 中一级菜单的 `min-width: 199px;`,而二级菜单为`min-width: 200px;`
+- 修改：`.el-submenu .el-menu-item {min-width: 199px;}`
+5. 左侧菜单栏 icon 与文字不对齐
+- 原因：App.vue中使用了 Avenir 图标
+```
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+```
+- 解决：将 Avenir 去掉，就对齐了
+- 🌟总结：虽然解决了，但是不知道为什么？
 
