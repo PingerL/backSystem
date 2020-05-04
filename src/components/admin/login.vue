@@ -28,8 +28,8 @@ export default {
   data(){
     return {
       info:{
-        username:'admin',
-        password:'admin'
+        username:'',
+        password:''
       },
       rules: {
         username: [
